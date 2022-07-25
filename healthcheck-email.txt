@@ -1,0 +1,6 @@
+From: Healthcheck <healthcheck@localhost>
+To: Healthcheck <healthcheck@localhost>
+Subject: Docker healthcheck
+Date: Mon, 7 Nov 2016 08:45:16
+
+Docker healthcheck
