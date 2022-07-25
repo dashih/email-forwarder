@@ -1,0 +1,25 @@
+{
+  "name": "elk-email",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dashih/elk-email.git"
+  },
+  "author": "dshih",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dashih/elk-email/issues"
+  },
+  "homepage": "https://github.com/dashih/elk-email#readme",
+  "dependencies": {
+    "@elastic/elasticsearch": "^8.2.1",
+    "@slack/web-api": "^6.7.2",
+    "mailparser": "^3.5.0",
+    "smtp-server": "^3.11.0"
+  }
+}
