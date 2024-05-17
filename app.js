@@ -17,7 +17,7 @@ const unsentSlacksIndex = 'unsent-slacks';
 const slackClient = new WebClient(slackToken);
 const slackChannel = '#alerts-and-notifications';
 
-const healthcheckHost = 'Healthcheck <healthcheck@localhost>';
+const healthcheckHost = '"Healthcheck" <healthcheck@localhost>';
 
 const server = new SMTPServer({
     disabledCommands: ['AUTH'],
