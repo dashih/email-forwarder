@@ -18,6 +18,7 @@ const slackClient = new WebClient(slackToken);
 const slackChannel = '#alerts-and-notifications';
 
 const healthcheckHost = '"Healthcheck" <healthcheck@localhost>';
+const bitwardenAdminLinkPrefix = 'bitwarden.dannyshih.net/admin/login/confirm';
 
 const server = new SMTPServer({
     disabledCommands: ['AUTH'],
@@ -31,10 +32,19 @@ const server = new SMTPServer({
 
         const subject = msgJson['subject'];
         const msg = msgJson['text'];
+        if (msg.indexOf(bitwardenAdminLinkPrefix) !== -1) {
+            console.log('bitwarden admin link detected. writing to /bitwarden-admin/mail.log instead of slacking');
+            await fs.promises.writeFile('/bitwarden-admin/mail.log', msg);
+            callback(null);
+            return;
+        }
+
         try {
+            const fullMsg = `${':email: '.repeat(4)}\n*${subject}*\n${host}\n\n${msg}`;
+            console.log(`${fullMsg}\n${'-'.repeat(80)}\n`);
             await slackClient.chat.postMessage({
                 channel: slackChannel,
-                text: `${':email: '.repeat(4)}\n*${subject}*\n${host}\n\n${msg}`
+                text: fullMsg
             });
         } catch (err) {
             console.error(err);
