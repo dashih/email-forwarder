@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/dashih/elk-email#readme",
   "dependencies": {
-    "@elastic/elasticsearch": "^8.10.0",
     "@slack/web-api": "^6.9.0",
     "mailparser": "^3.6.5",
     "smtp-server": "^3.13.0"

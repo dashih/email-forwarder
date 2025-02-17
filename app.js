@@ -3,16 +3,10 @@
 const fs = require('fs');
 const SMTPServer = require('smtp-server').SMTPServer;
 const simpleParser = require('mailparser').simpleParser;
-const { Client } = require('@elastic/elasticsearch');
 const { WebClient } = require('@slack/web-api');
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 const slackToken = config.slackToken;
-
-const esClient = new Client({
-    node: 'http://elasticsearch:9200'
-});
-const unsentSlacksIndex = 'unsent-slacks';
 
 const slackClient = new WebClient(slackToken);
 const slackChannel = '#alerts-and-notifications';
@@ -48,14 +42,6 @@ const server = new SMTPServer({
             });
         } catch (err) {
             console.error(err);
-            await esClient.index({
-                index: unsentSlacksIndex,
-                body: {
-                    host: host,
-                    subject: subject,
-                    message: msg
-                }
-            });
         } finally {
             callback(null);
         }
