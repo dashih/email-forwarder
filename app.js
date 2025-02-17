@@ -41,7 +41,7 @@ const server = new SMTPServer({
                 text: fullMsg
             });
         } catch (err) {
-            console.error(err);
+            console.error(`error forwarding email: subject=${subject}, message=${msg}, error=${err}`);
         } finally {
             callback(null);
         }
