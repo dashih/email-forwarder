@@ -35,7 +35,6 @@ const server = new SMTPServer({
 
         try {
             const fullMsg = `${':email: '.repeat(4)}\n*${subject}*\n${host}\n\n${msg}`;
-            console.log(`${fullMsg}\n${'-'.repeat(80)}\n`);
             await slackClient.chat.postMessage({
                 channel: slackChannel,
                 text: fullMsg
