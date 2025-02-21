@@ -14,6 +14,8 @@ const slackChannel = '#alerts-and-notifications';
 const healthcheckHost = '"Healthcheck" <healthcheck@localhost>';
 const bitwardenAdminLinkPrefix = 'bitwarden.dannyshih.net/admin/login/confirm';
 
+const testErrorSecret = config.testErrorSecret;
+
 const server = new SMTPServer({
     disabledCommands: ['AUTH'],
     async onData(stream, session, callback) {
@@ -34,6 +36,10 @@ const server = new SMTPServer({
         }
 
         try {
+            if (msg.indexOf(testErrorSecret) !== -1) {
+                throw 'this is a test';
+            }
+
             const fullMsg = `${':email: '.repeat(4)}\n*${subject}*\n${host}\n\n${msg}`;
             await slackClient.chat.postMessage({
                 channel: slackChannel,
