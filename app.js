@@ -3,13 +3,9 @@
 const fs = require('fs');
 const SMTPServer = require('smtp-server').SMTPServer;
 const simpleParser = require('mailparser').simpleParser;
-const { WebClient } = require('@slack/web-api');
 
 const config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
-const slackToken = config.slackToken;
-
-const slackClient = new WebClient(slackToken);
-const slackChannel = '#alerts-and-notifications';
+const slackWebhookUrl = config.slackWebhookUrl;
 
 const healthcheckHost = '"Healthcheck" <healthcheck@localhost>';
 const bitwardenAdminLinkPrefix = 'bitwarden.dannyshih.net/admin/login/confirm';
@@ -41,10 +37,18 @@ const server = new SMTPServer({
             }
 
             const fullMsg = `${':email: '.repeat(4)}\n*${subject}*\n${host}\n\n${msg}`;
-            await slackClient.chat.postMessage({
-                channel: slackChannel,
-                text: fullMsg
-            });
+            const resp = await fetch(
+                slackWebhookUrl,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({text: fullMsg})
+                });
+            if (!resp.ok) {
+                throw resp.status;
+            }
         } catch (err) {
             console.error(`error forwarding email: subject=${subject}, message=${msg}, error=${err}`);
         } finally {
