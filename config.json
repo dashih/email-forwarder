@@ -1,0 +1,4 @@
+{
+    "slackWebhookUrl": "https://testHook",
+    "testErrorSecret": "test"
+}

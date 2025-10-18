@@ -1,0 +1,8 @@
+services:
+  elk-email-forwarder:
+    image: registry.internal.dannyshih.net:5000/email-forwarder:v1.8.0
+    container_name: elk_email_forwarder
+    build: .
+    platform: linux/amd64
+    network_mode: bridge
+    restart: unless-stopped
